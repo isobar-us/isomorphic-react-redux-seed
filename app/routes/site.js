@@ -12,7 +12,7 @@ import pageTitle from '../scripts/pageTitle';
 
 const router = express.Router();
 
-router.get('/:path?/:categoryId?', function(req, res, next) {
+router.get('*', function(req, res, next) {
 
   function renderError(status, message) {
     res.status(status);
