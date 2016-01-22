@@ -14,19 +14,13 @@ export default {
     subscribers = [];
     subscribersReadyCt = 0;
   },
-  hasAsyncFns() {
-    return (subscribers.length !== 0);
-  },
   doAsyncFns(callbackFn) {
     allowSubscribe = false;
     if (subscribers.length) {
       allSubscribersReady = callbackFn;
-      subscribers.forEach(obj => {
-        obj.action(obj.dispatch, obj.getState, subscriberReady);
-      });
-    } else {
-      callbackFn();
+      subscribers.forEach(obj => obj.action(obj.dispatch, obj.getState, subscriberReady));
     }
+    return (subscribers.length !== 0);
   },
   middleware: store => next => action => {
     if (!action.async) {
