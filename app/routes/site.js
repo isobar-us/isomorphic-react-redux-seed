@@ -12,7 +12,7 @@ import pageTitle from '../scripts/pageTitle';
 
 const router = express.Router();
 
-router.get('/:path?/:categoryId?', function(req, res, next) {
+router.get('*', function(req, res, next) {
 
   function renderError(status, message) {
     res.status(status);
@@ -55,14 +55,8 @@ router.get('/:path?/:categoryId?', function(req, res, next) {
       pageTitle.init(store);
       // generate markup based on route. if any components require async data they will subscribe to iso object.
       let markup = getMarkupAsString(renderProps, store);
-      // if there were subscribers, set up a doAsyncFns callback to regenerate markup once async loads are complete
-      if (iso.hasAsyncFns()) {
-        iso.doAsyncFns(function(){
-          renderSuccess(getMarkupAsString(renderProps, store), store.getState().toJS());
-        });
-      }
-      // else if no components require async loads, render final markup
-      else {
+      // pass in callback to re-render markup once async loads are complete, or serve current markup if there are none
+      if (! iso.doAsyncFns( () => renderSuccess(getMarkupAsString(renderProps, store), store.getState().toJS()) ) ) {
         renderSuccess(markup, store.getState().toJS());
       }
     } else {
