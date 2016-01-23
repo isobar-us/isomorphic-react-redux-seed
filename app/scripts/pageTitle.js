@@ -12,7 +12,7 @@ export default {
     store = storeInstance;
     currentTitle = '';
     if (typeof window !== 'undefined') {
-      unsubscribe = store.subscribe(function(){
+      unsubscribe = store.subscribe(() => {
         document.title = store.getState().toJS().title;
       });
     }

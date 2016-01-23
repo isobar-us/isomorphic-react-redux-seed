@@ -36,9 +36,7 @@ export class Products extends React.Component {
   }
   render() {
     let items = [];
-    this.props.products.forEach(product => {
-      items.push(<ProductItem key={product.id} product={product} />);
-    });
+    this.props.products.forEach(product => items.push(<ProductItem key={product.id} product={product} />));
     return (
       <ul className="products clearfix">
         {items}

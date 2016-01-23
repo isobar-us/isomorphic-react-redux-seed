@@ -4,11 +4,7 @@ import constants from './constants';
 let reducers = {};
 
 export function combineReducer(obj) {
-  if (typeof reducers[obj.key] === 'undefined') {
-    reducers[obj.key] = obj.fn;
-  } else {
-    console.warn('A reducer with the key "'+obj.key+'" already exists');
-  }
+  if (typeof reducers[obj.key] === 'undefined') reducers[obj.key] = obj.fn;
 }
 
 export default function reducer(state = Map(), action) {
