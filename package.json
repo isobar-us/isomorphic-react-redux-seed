@@ -50,7 +50,7 @@
     "gulp-sourcemaps": "^1.6.0",
     "gulp-util": "^3.0.7",
     "run-sequence": "^1.1.5",
-    "webpack": "^1.12.2",
+    "webpack": "^1.13.1",
     "webpack-config-merger": "0.0.3"
   }
 }
