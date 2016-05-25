@@ -4,7 +4,7 @@ module.exports = {
   entry: './app/scripts/main.js',
   eslint: {
     configFile: '.eslintrc.json',
-    failOnWarning: true,
+    failOnWarning: false,
     failOnError: true
   },
   output: {

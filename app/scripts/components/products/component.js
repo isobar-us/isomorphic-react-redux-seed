@@ -1,7 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {loadProducts, getNormalizedProp} from './actions';
-import reducer from './reducer';
+import productsReducer from './reducer';
 import {combineReducer} from '../../reducer';
 
 export class ProductItem extends React.Component {
@@ -21,17 +21,17 @@ export class ProductItem extends React.Component {
 }
 
 export class Products extends React.Component {
-  componentWillMount() {
-    combineReducer(reducer);
+  componentDidMount() {
+    combineReducer(productsReducer);
     if (this.props.products.length === 0) {
-      this.props.dispatch( loadProducts(this.props.params.categoryId, this.props.location.query.sort) );
+      this.props.dispatch( loadProducts(this.props.params, this.props.location.query) );
     }
   }
   componentWillReceiveProps(nextProps) {
     let categoryId = getNormalizedProp(nextProps.params.categoryId);
     let sort = getNormalizedProp(nextProps.location.query.sort);
     if ( (categoryId !== nextProps.categoryId) || (sort !== nextProps.sort) ) {
-      this.props.dispatch( loadProducts(categoryId, sort) );
+      this.props.dispatch( loadProducts(nextProps.params, nextProps.location.query) );
     }
   }
   render() {
@@ -44,6 +44,9 @@ export class Products extends React.Component {
     );
   }
 }
+
+Products.needs = [loadProducts];
+Products.reducers = [productsReducer];
 
 function select(state) {
   state = state.toJS();

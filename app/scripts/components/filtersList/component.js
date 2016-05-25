@@ -3,8 +3,7 @@ import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import constants from '../../constants';
 import {loadCategories} from './actions';
-import reducer from './reducer';
-import {combineReducer} from '../../reducer';
+import filtersReducer from './reducer';
 
 export class FilterItem extends React.Component {
   render() {
@@ -18,12 +17,6 @@ export class FilterItem extends React.Component {
 }
 
 export class FiltersList extends React.Component {
-  componentWillMount() {
-    combineReducer(reducer);
-    if (this.props.categories.length === 0) {
-      this.props.dispatch( loadCategories() );
-    }
-  }
   getSortObj() {
     const sort = this.props.sort;
     const sortObj = {str: '', search:'', query: {}};
@@ -52,6 +45,9 @@ export class FiltersList extends React.Component {
     );
   }
 }
+
+FiltersList.needs = [loadCategories];
+FiltersList.reducers = [filtersReducer];
 
 function select(state) {
   state = state.toJS();

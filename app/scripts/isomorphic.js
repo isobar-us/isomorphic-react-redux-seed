@@ -1,34 +1,33 @@
-let allowSubscribe;
-let subscribers;
-let subscribersReadyCt;
-let allSubscribersReady;
+import {combineReducer} from './reducer';
 
-function subscriberReady() {
-  subscribersReadyCt++;
-  if (subscribersReadyCt === subscribers.length) allSubscribersReady();
+let needs;
+let needReadyCt;
+let allNeedsReady;
+
+function needReady() {
+  needReadyCt++;
+  if (needReadyCt === needs.length) allNeedsReady();
 }
 
-export default {
-  init() {
-    allowSubscribe = true;
-    subscribers = [];
-    subscribersReadyCt = 0;
-  },
-  doAsyncFns(callbackFn) {
-    allowSubscribe = false;
-    if (subscribers.length) {
-      allSubscribersReady = callbackFn;
-      subscribers.forEach(obj => obj.action(obj.dispatch, obj.getState, subscriberReady));
+function getReducedPropFromComponents(components, prop) {
+  return components.reduce( (prev, current) => {
+    if (typeof current === 'function') {
+      return (current[prop] || []).concat(prev);
+    } else if (typeof current === 'object') {
+      return Object.keys(current).reduce( (p, key) => (current[key][prop] || []).concat(p), []).concat(prev);
     }
-    return (subscribers.length !== 0);
-  },
-  middleware: store => next => action => {
-    if (!action.async) {
-      return next(action);
-    } else if (allowSubscribe) {
-      subscribers.push({action:action.async, dispatch:store.dispatch, getState:store.getState});
-    } else {
-      return action.async(store.dispatch, store.getState, function(){});
-    }
+  }, []);
+}
+
+export function loadAsyncNeeds(dispatch, components, params, query, callbackFn) {
+  needReadyCt = 0;
+  needs = getReducedPropFromComponents(components, 'needs');
+  if (needs.length) {
+    allNeedsReady = callbackFn;
+    const reducers = getReducedPropFromComponents(components, 'reducers');
+    reducers.forEach(reducer => combineReducer(reducer));
+    needs.forEach(need => dispatch(need(params, query, needReady)));
+  } else {
+    callbackFn();
   }
 }

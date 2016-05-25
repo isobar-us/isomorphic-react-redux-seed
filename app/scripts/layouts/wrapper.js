@@ -7,12 +7,12 @@ export default class extends React.Component {
   render() {
     return (
       <div id="wrapper">
-        <Header />
+        <Header nav={this.props.nav} />
         <div id="main">
           <section id="content">
-            {this.props.children}
+            {this.props.main}
           </section>
-          <Aside />
+          <Aside sidebar={this.props.sidebar} />
         </div>
         <Footer />
       </div>

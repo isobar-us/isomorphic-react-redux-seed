@@ -6,7 +6,7 @@ import {RoutingContext, match} from 'react-router';
 import {Map} from 'immutable';
 import createLocation from 'history/lib/createLocation';
 import {makeStore} from '../scripts/store';
-import iso from '../scripts/isomorphic';
+import {loadAsyncNeeds} from '../scripts/isomorphic';
 import {routes} from '../scripts/routes';
 import pageTitle from '../scripts/pageTitle';
 
@@ -49,16 +49,10 @@ router.get('*', function(req, res, next) {
     } else if (redirectLocation) {
       res.redirect(302, redirectLocation.pathname + redirectLocation.search)
     } else if (renderProps) {
-      // initialize isomorphic methods and pageTitle management
       let store = makeStore();
-      iso.init();
       pageTitle.init(store);
-      // generate markup based on route. if any components require async data they will subscribe to iso object.
-      let markup = getMarkupAsString(renderProps, store);
-      // pass in callback to re-render markup once async loads are complete, or serve current markup if there are none
-      if (! iso.doAsyncFns( () => renderSuccess(getMarkupAsString(renderProps, store), store.getState().toJS()) ) ) {
-        renderSuccess(markup, store.getState().toJS());
-      }
+      loadAsyncNeeds(store.dispatch, renderProps.components, renderProps.params, renderProps.location.query,
+        () => renderSuccess(getMarkupAsString(renderProps, store), store.getState().toJS()));
     } else {
       renderError(404, 'Not Found');
     }
