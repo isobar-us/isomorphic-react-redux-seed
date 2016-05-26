@@ -8,8 +8,9 @@ An isomorphic project seed for the purposes of modifiying according to the needs
 * [MongoDB](https://docs.mongodb.org/manual/)
 * [React](https://facebook.github.io/react/)
 * [Redux](http://redux.js.org/)
+* [Immutable](https://facebook.github.io/immutable-js/)
 * [React Router](https://github.com/rackt/react-router)
-* [SuperAgent](https://github.com/visionmedia/superagent)
+* [superagent-bluebird-promise](https://github.com/KyleAMathews/superagent-bluebird-promise)
 
 In addition to a base project structure , this seed also includes a tooling kit for task management:
 
@@ -23,7 +24,7 @@ In addition to a base project structure , this seed also includes a tooling kit 
 
 ## Installation
 
-First, make sure to install [MongoDB](https://docs.mongodb.org/manual/) and create a database. 
+First, make sure to install [MongoDB](https://docs.mongodb.org/manual/) and create a database.
 
 ```
 cd C:\MongoDB\bin
