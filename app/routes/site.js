@@ -34,12 +34,11 @@ router.get('*', function(req, res, next) {
     let initialElement = (
       <RoutingContext {...renderProps} />
     );
-    let markup = ReactDOMServer.renderToString(
+    return ReactDOMServer.renderToString(
       <Provider store={store}>
         {initialElement}
       </Provider>
     );
-    return markup;
   }
 
   let location = Object.assign({}, createLocation(req.originalUrl), {params:req.params, query:req.query});
@@ -51,8 +50,10 @@ router.get('*', function(req, res, next) {
     } else if (renderProps) {
       let store = makeStore();
       pageTitle.init(store);
-      loadAsyncNeeds(store.dispatch, renderProps.components, renderProps.params, renderProps.location.query,
-        () => renderSuccess(getMarkupAsString(renderProps, store), store.getState().toJS()));
+      loadAsyncNeeds(store.dispatch, renderProps.components, renderProps.params, renderProps.location.query)
+        .then(() => getMarkupAsString(renderProps, store))
+        .then(markup => renderSuccess(markup, store.getState().toJS()))
+        .catch(err => renderError(500, err.message));
     } else {
       renderError(404, 'Not Found');
     }

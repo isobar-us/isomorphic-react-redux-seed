@@ -1,5 +1,4 @@
 import request from 'superagent-bluebird-promise';
-//import request from 'axios';
 import constants from '../../constants';
 import pageTitle from '../../pageTitle';
 
@@ -10,7 +9,7 @@ export function getNormalizedProp(prop) {
   return prop;
 }
 
-export function loadProducts(params, query, readyFn) {
+export function loadProducts(params, query) {
   return function(dispatch) {
     let categoryId = getNormalizedProp(params.categoryId);
     let sort = getNormalizedProp(query.sort);
@@ -24,7 +23,7 @@ export function loadProducts(params, query, readyFn) {
       .catch(() => console.warn('ajax error retrieving products'))
       .finally(() => {
         productsReq = null;
-        if (typeof readyFn === 'function') readyFn();
       });
+    return productsReq;
   }
 }

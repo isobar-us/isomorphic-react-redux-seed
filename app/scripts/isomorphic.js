@@ -1,14 +1,5 @@
 import {combineReducer} from './reducer';
 
-let needs;
-let needReadyCt;
-let allNeedsReady;
-
-function needReady() {
-  needReadyCt++;
-  if (needReadyCt === needs.length) allNeedsReady();
-}
-
 function getReducedPropFromComponents(components, prop) {
   return components.reduce( (prev, current) => {
     if (typeof current === 'function') {
@@ -19,15 +10,12 @@ function getReducedPropFromComponents(components, prop) {
   }, []);
 }
 
-export function loadAsyncNeeds(dispatch, components, params, query, callbackFn) {
-  needReadyCt = 0;
-  needs = getReducedPropFromComponents(components, 'needs');
+export function loadAsyncNeeds(dispatch, components, params, query) {
+  const needs = getReducedPropFromComponents(components, 'needs');
   if (needs.length) {
-    allNeedsReady = callbackFn;
-    const reducers = getReducedPropFromComponents(components, 'reducers');
-    reducers.forEach(reducer => combineReducer(reducer));
-    needs.forEach(need => dispatch(need(params, query, needReady)));
+    getReducedPropFromComponents(components, 'reducers').forEach(reducer => combineReducer(reducer));
+    return Promise.all(needs.map(need => dispatch(need(params, query))));
   } else {
-    callbackFn();
+    return Promise.resolve();
   }
 }
