@@ -1,4 +1,5 @@
-import request from 'superagent';
+import request from 'superagent-bluebird-promise';
+//import request from 'axios';
 import constants from '../../constants';
 import pageTitle from '../../pageTitle';
 
@@ -13,15 +14,17 @@ export function loadProducts(params, query, readyFn) {
   return function(dispatch) {
     let categoryId = getNormalizedProp(params.categoryId);
     let sort = getNormalizedProp(query.sort);
-    if (productsReq !== null) productsReq.abort();
+    if (productsReq !== null) productsReq.cancel();
     dispatch({type:constants.LOAD_PRODUCTS, categoryId:categoryId, sort:sort});
     pageTitle.set(['Products', categoryId]);
     let url = constants.API_URL_DEV + 'products/' + categoryId;
     if (sort !== '') url = url + '?sort=' + sort;
-    productsReq = request.get(url).end( (err, resp) => {
-      dispatch({type:constants.LOAD_PRODUCTS_SUCCESS, items:resp.body});
-      productsReq = null;
-      if (typeof readyFn === 'function') readyFn();
-    });
+    productsReq = request.get(url)
+      .then((resp) => dispatch({type:constants.LOAD_PRODUCTS_SUCCESS, items:resp.body}))
+      .catch(() => console.warn('ajax error retrieving products'))
+      .finally(() => {
+        productsReq = null;
+        if (typeof readyFn === 'function') readyFn();
+      });
   }
 }
