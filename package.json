@@ -1,6 +1,6 @@
 {
-  "name": "front-end-tooling-kit",
-  "version": "0.0.1",
+  "name": "isomorphic-react-redux-seed",
+  "version": "0.0.2",
   "private": true,
   "description": "An isomorphic project seed utilizing Node, Express, MongoDB, React and Redux.",
   "scripts": {
