@@ -3,7 +3,6 @@ import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import {Provider} from 'react-redux';
 import {RoutingContext, match} from 'react-router';
-import {Map} from 'immutable';
 import createLocation from 'history/lib/createLocation';
 import {makeStore} from '../scripts/store';
 import {loadAsyncNeeds} from '../scripts/isomorphic';
