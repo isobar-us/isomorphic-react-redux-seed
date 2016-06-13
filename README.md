@@ -11,16 +11,18 @@ An isomorphic project seed for the purposes of modifiying according to the needs
 * [Immutable](https://facebook.github.io/immutable-js/)
 * [React Router](https://github.com/rackt/react-router)
 * [superagent-bluebird-promise](https://github.com/KyleAMathews/superagent-bluebird-promise)
+* [Mocha](https://mochajs.org/)|[Chai](http://chaijs.com/)|[Isparta](https://github.com/douglasduteil/isparta)
 
-In addition to a base project structure , this seed also includes a tooling kit for task management:
+In addition to a base project structure, this seed also includes a tooling kit for task management:
 
 * Manage tasks via Gulp and Webpack for development and production
-* Transpiles ES6, JSX, and dependency management, and bundles via Webpack.
+* Transpiles ES6, JSX, and dependency management, and bundles via Webpack
 * Compiles SASS into CSS
 * Provides support for sourcemaps
 * Compresses images for production
-* Enforces code quality via ESLint and an .editorconfig file
 * Provides a configurable source and distribution folder structure
+* Enforces code quality via ESLint and an .editorconfig file
+* Provides a testing suite based on Mocha/Chai, with code coverage that includes es6 and jsx support via Isparta
 
 ## Installation
 
@@ -56,7 +58,7 @@ npm install
 gulp watch
 ```
 
-### Production
+### Production (will run tests)
 
 ```
 gulp build
@@ -68,9 +70,16 @@ gulp build
 npm start
 ```
 
+## Run tests
+
+```
+npm test
+```
+
+## Generate code coverage
+
+```
+npm run-script coverage
+```
+
 View in the browser at: <code>http://localhost:3000/</code>
-
-## TODOs
-
-* Add a testing suite
-* Add hot module replacement

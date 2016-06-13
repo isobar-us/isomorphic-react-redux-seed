@@ -1,5 +1,7 @@
 'use strict';
 
+// needed to run gulp-mocha
+require('babel-register');
 const gulp        = require('gulp');
 const gutil       = require('gulp-util');
 const sourcemaps  = require('gulp-sourcemaps');
@@ -8,6 +10,7 @@ const webpack     = require('webpack');
 const imagemin    = require('gulp-imagemin');
 const del         = require('del');
 const runSequence = require('run-sequence');
+const mocha       = require('gulp-mocha');
 
 const webpackDevConfig  = require('./webpack.dev.js');
 const webpackProdConfig = require('./webpack.prod.js');
@@ -63,7 +66,12 @@ gulp.task('fonts', ()  => gulp.src(FONTS_SRC)
 
 gulp.task('clean', (callback) => del(APP_DIST, callback));
 
-gulp.task('build', (callback) => runSequence('clean', ['sass:prod', 'webpack:prod', 'images:prod', 'fonts'], callback));
+gulp.task('test', function () {
+  return gulp.src('test/**/*.js', {read: false})
+    .pipe(mocha({reporter: 'spec'}));
+});
+
+gulp.task('build', (callback) => runSequence('test', 'clean', ['sass:prod', 'webpack:prod', 'images:prod', 'fonts'], callback));
 
 gulp.task('watch', ['sass:dev', 'webpack:dev', 'images:dev', 'fonts'], () => {
   gulp.watch(SASS_SRC, ['sass:dev']);
