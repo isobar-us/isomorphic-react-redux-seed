@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {Link} from 'react-router';
 import constants from '../constants';
 
-export default class SortList extends React.Component {
+export class SortList extends React.Component {
   render() {
     let href = '/products/';
     let sortClasses = { alpha:'', priceasc:'', pricedesc:'' };
