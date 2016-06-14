@@ -87,7 +87,6 @@ describe('products-actions', () => {
     return store.dispatch(loadProducts({categoryId:''}, {sort:''}))
       .then(() => { // return of async actions
         let actions = store.getActions();
-        console.log(actions);
         expect(actions[0].type).to.equal('DOC_TITLE_CHANGE');
         expect(actions[1].type).to.equal('LOAD_PRODUCTS_REQUEST')
         expect(actions[2].type).to.equal('LOAD_PRODUCTS_SUCCESS');
