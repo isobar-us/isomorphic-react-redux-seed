@@ -16,6 +16,7 @@ function loadCategoriesError() {
 export function loadCategories() {
   return function(dispatch) {
     dispatch(loadCategoriesRequest());
+    // return the promise to track async loading on the server
     return request.get(constants.API_URL_DEV+'categories')
       .then((resp) => {
         dispatch(loadCategoriesSuccess(resp.body));
