@@ -1,7 +1,6 @@
 # Isomorphic React/Redux Seed
-=======
 
-An isomorphic project seed for the purposes of modifiying according to the needs of a project. The app seed utilizes:
+An isomorphic project seed to provide project structure, tooling, and tests. Intended to be modified according to the needs of a project. The app seed utilizes:
 
 * [Node](https://nodejs.org/en/)
 * [Express](http://expressjs.com/en/)
@@ -11,12 +10,14 @@ An isomorphic project seed for the purposes of modifiying according to the needs
 * [Immutable](https://facebook.github.io/immutable-js/)
 * [React Router](https://github.com/rackt/react-router)
 * [superagent-bluebird-promise](https://github.com/KyleAMathews/superagent-bluebird-promise)
-* [Mocha](https://mochajs.org/)|[Chai](http://chaijs.com/)|[Isparta](https://github.com/douglasduteil/isparta)
+* [Mocha](https://mochajs.org/)
+* [Chai](http://chaijs.com/)
+* [Isparta](https://github.com/douglasduteil/isparta)
 
 In addition to a base project structure, this seed also includes a tooling kit for task management:
 
 * Manage tasks via Gulp and Webpack for development and production
-* Transpiles ES6, JSX, and dependency management, and bundles via Webpack
+* Transpiles ES6, JSX, and dependency management, and bundles via Babel and Webpack
 * Compiles SASS into CSS
 * Provides support for sourcemaps
 * Compresses images for production
